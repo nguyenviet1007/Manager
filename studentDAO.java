@@ -69,20 +69,25 @@ public class studentDAO   {
      System.out.print(e);
     }
 } 
-   public void updateStu(Student s) {
-    String query = "UPDATE Student SET SName = ?, StudentBOD = ?, UserName = ?, Password = ? WHERE SID = ?";
-         try( Connection conn=DBContext.getconnect()) {
-           PreparedStatement ps = conn.prepareStatement(query);
-          ps.setString(1, s.getName());
-            ps.setString(2, s.getDoB());  
-            ps.setString(3, s.getUsername()); 
-            ps.setString(4, s.getPassword());  
-            ps.setString(5, s.getId());
-             ps.executeUpdate(); 
-        } catch (SQLException e) {
-          System.out.print(e);
-        }
-    } 
+   public void updateStudent(Student student) {
+    String sql = "UPDATE Student SET SName = ?, StudentBOD = ?, UserName = ?, Password = ? WHERE SID = ?";
+
+    try (Connection conn = DBContext.getconnect();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+
+        ps.setString(1, student.getName());
+        ps.setString(2, student.getDoB());
+        ps.setString(3, student.getUsername());
+        ps.setString(4, student.getPassword());
+        ps.setString(5, student.getId());
+
+        ps.executeUpdate();
+
+    } catch (SQLException e) {
+        e.printStackTrace(); // tốt hơn để debug thay vì chỉ in ra System.out
+    }
+}
+
    
       public void updateStu(Student s,String old_stu_id) {
     String query = "UPDATE Student SET SID = ?, SName = ?, StudentBOD = ?, UserName = ?, Password = ? WHERE SID = ?";
